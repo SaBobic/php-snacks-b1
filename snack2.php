@@ -1,8 +1,12 @@
 <?php
 
-$name = $_GET['name'];
-$mail = $_GET['mail'];
-$age = $_GET['age'];
+$name = $_GET['name'] ?? '';
+$mail = $_GET['mail'] ?? '';
+$age = $_GET['age'] ?? '';
+
+$access_denied = true;
+
+if (mb_strlen($name) > 3 && str_contains($mail, '@') && str_contains($mail, '.') && is_numeric($age)) $access_denied = false;
 
 ?>
 
@@ -18,17 +22,17 @@ $age = $_GET['age'];
   
 <form method="GET">
     <input type="text" name="name" placeholder="Name..." required>
-    <input type="email" name="mail" placeholder="Mail..." required>
-    <input type="number" name="age" placeholder="Age..." required>
+    <input type="text" name="mail" placeholder="Mail..." required>
+    <input type="text" name="age" placeholder="Age..." required>
     <button type="submit">Submit</button>
 </form>
 
 <hr>
 
-<?php if ($name) : ?>
-<p>Accesso consentito</p>
+<?php if (!$access_denied) : ?>
+<p>Successfull authentication</p>
 <?php else : ?>
-<p>Accesso negato</p>
+<p>Access denied</p>
 <?php endif; ?>
 
 <a href="snack2.php">Return</a>
